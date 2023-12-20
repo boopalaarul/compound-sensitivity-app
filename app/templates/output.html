@@ -1,0 +1,168 @@
+<!--file generated from template with 1 input variable, depending on this
+a different set of public/data assets will be drawn from... should take care of
+the 400 different cases-->
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<h1> Results for {{ data['drug_id'] }}</h1>
+
+<div class="text-bubble">
+    <p>Check out this drug's profile on <a href="https://go.drugbank.com/unearth/q?query={{ data['drug_id'] }}&button=&searcher=drugs">DrugBank</a>.</p>
+
+    <p>Until session cookies are implemented [coming soon!], refreshing this page will cause a redirect to the main page. Save the HTML to preserve a copy of this page.</p>
+
+    <form action="/" method="GET">
+        <input type="submit" value="Return to main page">
+    </form>
+
+</div>
+
+<h2> Data Summary </h2>
+
+<div class="text-bubble">
+    <p>In the dataset, <b>{{ data['num_cell_lines']}}</b> cell lines had their AUC values recorded for this drug.</p>
+
+    <p>Summary statistics:</p>
+    <table>
+        <tr>
+            <th>Maximum</th>
+            <th>3rd Quartile</th>
+            <th>Median</th>
+            <th>1st Quartile</th>
+            <th>Minimum</th>
+            <th>Interquartile Range</th>
+        </tr>
+        <tr>
+            <td>{{data['maximum']}}</td>
+            <td>{{data['Q3']}}</td>
+            <td>{{data['median']}}</td>
+            <td>{{data['Q1']}}</td>
+            <td>{{data['minimum']}}</td>
+            <td>{{data['iqr']}}</td> 
+        </tr>
+    </table>
+
+    <p>Out of these, <b>{{ data['num_outliers'] }}</b> cell lines were outliers, having AUC values less than Q1 - (1.5 * IQR).</p>
+</div>
+
+<h2>Chi-squared test of independence: "Site" vs "Outlier"</h2>
+
+<div class="text-bubble">
+    <p>This is a test of whether variation in one categorical variable (outlier vs. not outlier) is associated with variation in another (tissue from which the cell originated).</p>
+
+    <p>Out of <b>{{ site_results["cells_over_0"] }}</b> tissues represented among the {{ data['num_outliers'] }} outliers, <b>{{ site_results["cells_5_and_over"] }}</b> tissues were shared by 5 or more cell lines.</p>
+
+    <table>
+        <tr>
+            <th>Chi-squared test statistic</th>
+            <th>degrees of freedom</th>
+            <th>p-value</th>
+        </tr>
+        <tr>
+            <td>{{site_results['chi2']}}</td>
+            <td>{{site_results['df']}}</td>
+            <td>{{site_results['p']}}</td>
+        </tr>
+    </table>
+</div>
+
+<h3>Expected vs. observed counts</h3>
+
+<div class="text-bubble">
+    <table>
+        <tr>
+            <th>Count set</th>
+            {%- for item in site_table["header"] %}
+            <th>{{ item }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Expected counts, non-outliers</td>
+            {%- for item in site_table["expected_no"] %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Observed counts, non-outliers</td>
+            {%- for item in site_table["observed_no"] %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Expected counts, outliers</td>
+            {%- for item in site_table["expected_o"] %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Observed counts, outliers</td>
+            {%- for item in site_table["observed_o"] %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+
+<h2>Chi-squared test of independence: "Histology" vs "Outlier"</h2>
+
+<div class="text-bubble">
+    <p>This is a test of whether variation in one categorical variable (outlier vs. not outlier) is associated with variation in another (primary histology of the cancer cell).</p>
+
+    <p>Out of <b>{{ hist_results["cells_over_0"] }}</b> histologies represented among the {{ data['num_outliers'] }} outliers, <b>{{ hist_results["cells_5_and_over"] }}</b> histologies were shared by 5 or more cell lines.</p>
+
+    <table>
+        <tr>
+            <th>Chi-squared test statistic</th>
+            <th>degrees of freedom</th>
+            <th>p-value</th>
+        </tr>
+        <tr>
+            <td>{{hist_results['chi2']}}</td>
+            <td>{{hist_results['df']}}</td>
+            <td>{{hist_results['p']}}</td>
+        </tr>
+    </table>
+</div>
+
+
+<h3>Expected vs. observed counts:</h3>
+
+<div class="text-bubble">
+    <table>
+        <tr>
+            <th>Count set</th>
+            {%- for item in hist_table["header"] %}
+            <th>{{ item }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Expected counts, non-outliers</td>
+            {%- for item in hist_table["expected_no"] %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Observed counts, non-outliers</td>
+            {%- for item in hist_table["observed_no"] %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Expected counts, outliers</td>
+            {%- for item in hist_table["expected_o"] %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Observed counts, outliers</td>
+            {%- for item in hist_table["observed_o"] %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+
+<div class="return-button">
+    <form action="/" method="GET">
+        <input type="submit" value="Return to main page">
+    </form>
+</div>

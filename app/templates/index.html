@@ -1,0 +1,55 @@
+<!--main form, can still have the three main datalists-->
+<!--response has keys site, histology, compound-->
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<h1>Enrichment Analysis for Cancer Drug Sensitivity</h1>
+
+<h2>The Problem</h2>
+<div class="text-bubble">
+    <p>Cancers can appear in a range of tissues, and exhibit different behaviors and interactions with important systems in the human body. This poses a challenge for drug discovery and testing, since the same compound may have different levels of toxicity against different varieties of cancer cells. Additionally, while in vitro measurements such as IC50 may describe how a drug inhibits cancer cells in a culture dish, biomarkers of cancer cell activity and decline are needed to verify that the drug has similar effects in the human body.</p>
+
+    <p>The data for this program is from the Broad Institute's <a href="https://portals.broadinstitute.org/ctrp.v2.1/?cluster=true?page=#ctd2Cluster">Cancer Therapeutics Response Portal v2</a>. This data describes the sensitivity of 664 cancer cell lines against 481 therapeutic compounds, as measured in the area (AUC) under the function of drug dose (the concentration of the administered compound) and cell response. For a given cell line and drug, a lower AUC indicates a faster drop in cell growth, division, and viability-- meaning that the cell line is particularly sensitive to this drug.</p>
+    
+    <p>In this dataset, cell lines are characterized by the tissue they originate from, and the primary histology of the cancer. This program examines which categories of cell lines are overrepresented or enriched among those cells most sensitive to a particular drug.</p>    
+</div>
+
+<h2>Among the cells sensitive to a particular drug, are certain sites and histologies overrepresented?</h2>
+
+<div class="text-bubble">
+    <h3>Submit a query to generate a report.</h3>
+
+    <form action="/render-output" method="POST">
+
+        <label for="compound-input">Drug/Compound:</label>
+        <input list="compound-list" id="compound-input" name="compound" />
+
+        <label for="site-input">Tissue:</label>
+        <input list="site-list" id="site-input" name="site" />
+
+        <label for="histology-input">Histology:</label>
+        <input list="histology-list" id="histology-input" name="histology" />
+
+        <!--datalists generated from text files in data... would prefer that app.py reads these in
+        with standard python file methods and then hands the list to jinja-->
+        <datalist id="site-list">
+            <!--generate options-->
+            {%- for site in data['sites'] %}
+            <option value="{{ site }}"></option> 
+            {% endfor %}
+        </datalist>
+
+        <datalist id="histology-list">
+            {%- for hist in data['histologies'] %}
+            <option value="{{ hist }}"></option> 
+            {% endfor %}
+        </datalist>
+
+        <datalist id="compound-list">
+            {%- for comp in data['compounds'] %}
+            <option value="{{ comp }}"></option> 
+            {% endfor %}
+        </datalist>
+
+        <input type="submit" value="Submit Query">
+    </form>
+</div>

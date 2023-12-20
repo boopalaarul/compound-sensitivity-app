@@ -1,0 +1,77 @@
+---
+title: "Subsetting CTRP Data"
+date: "2023-12-15"
+---
+
+```{r}
+
+frame <- read.csv2("ctrpv2_cluster_heatmap.gct", sep="\t", skip=2, row.names=1)
+
+```
+
+```{r}
+
+compound_names <- c(frame$compound_name)[5:485]
+write.table(compound_names, 
+            file = "compound_names.txt", 
+            quote = FALSE, 
+            row.names = FALSE,
+            col.names = FALSE)
+
+compound_names <- paste(compound_names, c("_AUC"), sep = "")
+#compound_names
+header_complete <- c(c("cell_line_name", "site", "histology"), compound_names)
+#header_complete
+
+```
+
+```{r}
+
+frame_t <- t(frame)
+dim(frame_t)
+
+#extract relevant data: all columns except the histology subtype (col 4), 
+#keeping the cell data (cols 1:3) and the AUCs/sensitivities for each drug
+#for rows, exclude the rows where it's describing the drugs and not the cells
+frame_t_subset <- frame_t[c(4:667), c(1:3, 5:485)]
+dim(frame_t_subset)
+
+#apply names that make sense to each column, wipe out the cell line IDs from CTRP 
+#(already using the cell line names)
+colnames(frame_t_subset) <- header_complete
+rownames(frame_t_subset) <- NULL
+
+```
+
+```{r}
+write.table(frame_t_subset, file = "regression_data.tsv", quote=FALSE, sep="\t", row.names = FALSE)
+```
+
+```{r}
+write.table(unique(frame_t_subset[,"site"]),
+            file = "site_names.txt", 
+            quote = FALSE, 
+            row.names = FALSE,
+            col.names = FALSE)
+write.table(unique(frame_t_subset[,"histology"]),
+            file = "histology_names.txt", 
+            quote = FALSE, 
+            row.names = FALSE,
+            col.names = FALSE)
+```
+
+```{r}
+#split to train/test datasets
+
+#might as well do the train/test split now, make it 70/30
+mask <- sample(c(TRUE, FALSE), size = 664, replace = TRUE, prob = c(75, 25))
+table(mask)
+
+train_frame <- frame_t_subset[mask,]
+test_frame <- frame_t_subset[!mask,]
+
+write.table(train_frame, file = "train_data.tsv", quote=FALSE, sep="\t", row.names = FALSE)
+write.table(test_frame, file = "test_data.tsv", quote=FALSE, sep="\t", row.names = FALSE)
+
+```
+
