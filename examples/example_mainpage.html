@@ -1,0 +1,1615 @@
+
+<!-- saved from url=(0022)http://127.0.0.1:5000/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="./example_mainpage_files/styles.css">
+
+</head><body><h1>Enrichment Analysis for Cancer Drug Sensitivity</h1>
+
+<h2>The Problem</h2>
+<div class="text-bubble">
+    <p>Cancers can appear in a range of tissues, and exhibit different behaviors and interactions with important systems in the human body. This poses a challenge for drug discovery and testing, since the same compound may have different levels of toxicity against different varieties of cancer cells. Additionally, while in vitro measurements such as IC50 may describe how a drug inhibits cancer cells in a culture dish, biomarkers of cancer cell activity and decline are needed to verify that the drug has similar effects in the human body.</p>
+
+    <p>The data for this program is from the Broad Institute's <a href="https://portals.broadinstitute.org/ctrp.v2.1/?cluster=true?page=#ctd2Cluster">Cancer Therapeutics Response Portal v2</a>. This data describes the sensitivity of 664 cancer cell lines against 481 therapeutic compounds, as measured in the area (AUC) under the function of drug dose (the concentration of the administered compound) and cell response. For a given cell line and drug, a lower AUC indicates a faster drop in cell growth, division, and viability-- meaning that the cell line is particularly sensitive to this drug.</p>
+    
+    <p>In this dataset, cell lines are characterized by the tissue they originate from, and the primary histology of the cancer. This program examines which categories of cell lines are overrepresented or enriched among those cells most sensitive to a particular drug.</p>    
+</div>
+
+<h2>Among the cells sensitive to a particular drug, are certain sites and histologies overrepresented?</h2>
+
+<div class="text-bubble">
+    <h3>Submit a query to generate a report.</h3>
+
+    <form action="http://127.0.0.1:5000/render-output" method="POST">
+
+        <label for="compound-input">Drug/Compound:</label>
+        <input list="compound-list" id="compound-input" name="compound">
+
+        <label for="site-input">Tissue:</label>
+        <input list="site-list" id="site-input" name="site">
+
+        <label for="histology-input">Histology:</label>
+        <input list="histology-list" id="histology-input" name="histology">
+
+        <!--datalists generated from text files in data... would prefer that app.py reads these in
+        with standard python file methods and then hands the list to jinja-->
+        <datalist id="site-list">
+            <!--generate options-->
+            <option value="lung
+"></option> 
+            
+            <option value="ovary
+"></option> 
+            
+            <option value="thyroid
+"></option> 
+            
+            <option value="prostate
+"></option> 
+            
+            <option value="kidney
+"></option> 
+            
+            <option value="liver
+"></option> 
+            
+            <option value="central_nervous_system
+"></option> 
+            
+            <option value="soft_tissue
+"></option> 
+            
+            <option value="endometrium
+"></option> 
+            
+            <option value="bone
+"></option> 
+            
+            <option value="upper_aerodigestive_tract
+"></option> 
+            
+            <option value="oesophagus
+"></option> 
+            
+            <option value="pancreas
+"></option> 
+            
+            <option value="biliary_tract
+"></option> 
+            
+            <option value="pleura
+"></option> 
+            
+            <option value="stomach
+"></option> 
+            
+            <option value="breast
+"></option> 
+            
+            <option value="urinary_tract
+"></option> 
+            
+            <option value="autonomic_ganglia
+"></option> 
+            
+            <option value="haematopoietic_and_lymphoid_tissue
+"></option> 
+            
+            <option value="large_intestine
+"></option> 
+            
+            <option value="skin
+"></option> 
+            
+            <option value="salivary_gland
+"></option> 
+            
+        </datalist>
+
+        <datalist id="histology-list">
+            <option value="carcinoma
+"></option> 
+            
+            <option value="glioma
+"></option> 
+            
+            <option value="leiomyosarcoma
+"></option> 
+            
+            <option value="osteosarcoma
+"></option> 
+            
+            <option value="sarcoma
+"></option> 
+            
+            <option value="primitive_neuroectodermal_tumor_medulloblastoma
+"></option> 
+            
+            <option value="mesothelioma
+"></option> 
+            
+            <option value="chondrosarcoma
+"></option> 
+            
+            <option value="rhabdomyosarcoma
+"></option> 
+            
+            <option value="neuroblastoma
+"></option> 
+            
+            <option value="lymphoid_neoplasm
+"></option> 
+            
+            <option value="rhabdoid_tumor
+"></option> 
+            
+            <option value="malignant_melanoma
+"></option> 
+            
+            <option value="fibrosarcoma
+"></option> 
+            
+            <option value="Ewings_sarcoma_peripheral_primitive_neuroectodermal_tumor
+"></option> 
+            
+            <option value="malignant_fibrous_histiocytoma_pleomorphic_sarcoma
+"></option> 
+            
+            <option value="sex_cord_stromal_tumor
+"></option> 
+            
+            <option value="haematopoietic_neoplasm
+"></option> 
+            
+            <option value="carcinoid_endocrine_tumor
+"></option> 
+            
+        </datalist>
+
+        <datalist id="compound-list">
+            <option value="zebularine
+"></option> 
+            
+            <option value="azacitidine
+"></option> 
+            
+            <option value="nelarabine
+"></option> 
+            
+            <option value="myricetin
+"></option> 
+            
+            <option value="BRD-K64610608
+"></option> 
+            
+            <option value="ML334 diastereomer
+"></option> 
+            
+            <option value="BRD-K09344309
+"></option> 
+            
+            <option value="isonicotinohydroxamic acid
+"></option> 
+            
+            <option value="QS-11
+"></option> 
+            
+            <option value="brivanib
+"></option> 
+            
+            <option value="BRD8958
+"></option> 
+            
+            <option value="BRD-K34099515
+"></option> 
+            
+            <option value="A-804598
+"></option> 
+            
+            <option value="erismodegib
+"></option> 
+            
+            <option value="abiraterone
+"></option> 
+            
+            <option value="ifosfamide
+"></option> 
+            
+            <option value="temozolomide
+"></option> 
+            
+            <option value="BRD-A05715709
+"></option> 
+            
+            <option value="BRD-K48477130
+"></option> 
+            
+            <option value="CAY10594
+"></option> 
+            
+            <option value="WP1130
+"></option> 
+            
+            <option value="tamoxifen
+"></option> 
+            
+            <option value="importazole
+"></option> 
+            
+            <option value="ML006
+"></option> 
+            
+            <option value="AM-580
+"></option> 
+            
+            <option value="CD-1530
+"></option> 
+            
+            <option value="silmitasertib
+"></option> 
+            
+            <option value="PRL-3 inhibitor I
+"></option> 
+            
+            <option value="NPC-26
+"></option> 
+            
+            <option value="betulinic acid
+"></option> 
+            
+            <option value="salermide
+"></option> 
+            
+            <option value="BRD-M00053801
+"></option> 
+            
+            <option value="AA-COCF3
+"></option> 
+            
+            <option value="CI-976
+"></option> 
+            
+            <option value="pifithrin-alpha
+"></option> 
+            
+            <option value="purmorphamine
+"></option> 
+            
+            <option value="BIBR-1532
+"></option> 
+            
+            <option value="niclosamide
+"></option> 
+            
+            <option value="bardoxolone methyl
+"></option> 
+            
+            <option value="hyperforin
+"></option> 
+            
+            <option value="BRD4132
+"></option> 
+            
+            <option value="regorafenib
+"></option> 
+            
+            <option value="sorafenib
+"></option> 
+            
+            <option value="BRD-K51490254
+"></option> 
+            
+            <option value="EX-527
+"></option> 
+            
+            <option value="bendamustine
+"></option> 
+            
+            <option value="PYR-41
+"></option> 
+            
+            <option value="B02
+"></option> 
+            
+            <option value="ML031
+"></option> 
+            
+            <option value="tipifarnib-P1
+"></option> 
+            
+            <option value="BRD9876
+"></option> 
+            
+            <option value="parthenolide
+"></option> 
+            
+            <option value="tandutinib
+"></option> 
+            
+            <option value="CID-5951923
+"></option> 
+            
+            <option value="DBeQ
+"></option> 
+            
+            <option value="LE-135
+"></option> 
+            
+            <option value="BRD-K24690302
+"></option> 
+            
+            <option value="ML203
+"></option> 
+            
+            <option value="dexamethasone
+"></option> 
+            
+            <option value="BRD8899
+"></option> 
+            
+            <option value="KH-CB19
+"></option> 
+            
+            <option value="MK-0752
+"></option> 
+            
+            <option value="SB-431542
+"></option> 
+            
+            <option value="Repligen 136
+"></option> 
+            
+            <option value="OSI-930
+"></option> 
+            
+            <option value="tacrolimus
+"></option> 
+            
+            <option value="cytarabine hydrochloride
+"></option> 
+            
+            <option value="clofarabine
+"></option> 
+            
+            <option value="3-Cl-AHPC
+"></option> 
+            
+            <option value="CD-437
+"></option> 
+            
+            <option value="gemcitabine
+"></option> 
+            
+            <option value="mitomycin
+"></option> 
+            
+            <option value="PF-184
+"></option> 
+            
+            <option value="chlorambucil
+"></option> 
+            
+            <option value="SN-38
+"></option> 
+            
+            <option value="topotecan
+"></option> 
+            
+            <option value="indisulam
+"></option> 
+            
+            <option value="barasertib
+"></option> 
+            
+            <option value="alisertib
+"></option> 
+            
+            <option value="bleomycin A2
+"></option> 
+            
+            <option value="doxorubicin
+"></option> 
+            
+            <option value="teniposide
+"></option> 
+            
+            <option value="etoposide
+"></option> 
+            
+            <option value="ruxolitinib
+"></option> 
+            
+            <option value="RAF265
+"></option> 
+            
+            <option value="pyrazolanthrone
+"></option> 
+            
+            <option value="TPCA-1
+"></option> 
+            
+            <option value="AZ-3146
+"></option> 
+            
+            <option value="Mdivi-1
+"></option> 
+            
+            <option value="elocalcitol
+"></option> 
+            
+            <option value="SU11274
+"></option> 
+            
+            <option value="BRD1835
+"></option> 
+            
+            <option value="SID 26681509
+"></option> 
+            
+            <option value="pevonedistat
+"></option> 
+            
+            <option value="BRD-K35604418
+"></option> 
+            
+            <option value="ETP-46464
+"></option> 
+            
+            <option value="NSC48300
+"></option> 
+            
+            <option value="curcumin
+"></option> 
+            
+            <option value="sunitinib
+"></option> 
+            
+            <option value="KW-2449
+"></option> 
+            
+            <option value="AZD4547
+"></option> 
+            
+            <option value="lenvatinib
+"></option> 
+            
+            <option value="pazopanib
+"></option> 
+            
+            <option value="tivozanib
+"></option> 
+            
+            <option value="axitinib
+"></option> 
+            
+            <option value="Ki8751
+"></option> 
+            
+            <option value="cediranib
+"></option> 
+            
+            <option value="MGCD-265
+"></option> 
+            
+            <option value="foretinib
+"></option> 
+            
+            <option value="cabozantinib
+"></option> 
+            
+            <option value="tamatinib
+"></option> 
+            
+            <option value="nintedanib
+"></option> 
+            
+            <option value="PIK-93
+"></option> 
+            
+            <option value="KU 0060648
+"></option> 
+            
+            <option value="MK-2206
+"></option> 
+            
+            <option value="GDC-0941
+"></option> 
+            
+            <option value="ZSTK474
+"></option> 
+            
+            <option value="GSK1059615
+"></option> 
+            
+            <option value="NVP-BEZ235
+"></option> 
+            
+            <option value="BYL-719
+"></option> 
+            
+            <option value="temsirolimus
+"></option> 
+            
+            <option value="sirolimus
+"></option> 
+            
+            <option value="OSI-027
+"></option> 
+            
+            <option value="KU-0063794
+"></option> 
+            
+            <option value="AZD8055
+"></option> 
+            
+            <option value="PF-573228
+"></option> 
+            
+            <option value="crizotinib
+"></option> 
+            
+            <option value="NVP-BSK805
+"></option> 
+            
+            <option value="TG-101348
+"></option> 
+            
+            <option value="AT7867
+"></option> 
+            
+            <option value="cytochalasin B
+"></option> 
+            
+            <option value="NVP-TAE684
+"></option> 
+            
+            <option value="BMS-754807
+"></option> 
+            
+            <option value="BMS-536924
+"></option> 
+            
+            <option value="linsitinib
+"></option> 
+            
+            <option value="NVP-ADW742
+"></option> 
+            
+            <option value="cyanoquinoline 11
+"></option> 
+            
+            <option value="austocystin D
+"></option> 
+            
+            <option value="olaparib
+"></option> 
+            
+            <option value="PI-103
+"></option> 
+            
+            <option value="triptolide
+"></option> 
+            
+            <option value="cucurbitacin I
+"></option> 
+            
+            <option value="KPT185
+"></option> 
+            
+            <option value="NSC632839
+"></option> 
+            
+            <option value="LRRK2-IN-1
+"></option> 
+            
+            <option value="JQ-1
+"></option> 
+            
+            <option value="GSK525762A
+"></option> 
+            
+            <option value="I-BET151
+"></option> 
+            
+            <option value="nutlin-3
+"></option> 
+            
+            <option value="HLI 373
+"></option> 
+            
+            <option value="serdemetan
+"></option> 
+            
+            <option value="necrosulfonamide
+"></option> 
+            
+            <option value="HBX-41108
+"></option> 
+            
+            <option value="SMER-3
+"></option> 
+            
+            <option value="BRD-K28456706
+"></option> 
+            
+            <option value="BRD-K45681478
+"></option> 
+            
+            <option value="methylstat
+"></option> 
+            
+            <option value="PL-DI
+"></option> 
+            
+            <option value="piperlongumine
+"></option> 
+            
+            <option value="BRD-K34222889
+"></option> 
+            
+            <option value="cerulenin
+"></option> 
+            
+            <option value="BRD-K26531177
+"></option> 
+            
+            <option value="NSC95397
+"></option> 
+            
+            <option value="manumycin A
+"></option> 
+            
+            <option value="CCT036477
+"></option> 
+            
+            <option value="PX-12
+"></option> 
+            
+            <option value="PRIMA-1
+"></option> 
+            
+            <option value="968
+"></option> 
+            
+            <option value="ML029
+"></option> 
+            
+            <option value="AZD1480
+"></option> 
+            
+            <option value="RITA
+"></option> 
+            
+            <option value="ABT-199
+"></option> 
+            
+            <option value="ABT-737
+"></option> 
+            
+            <option value="navitoclax
+"></option> 
+            
+            <option value="R428
+"></option> 
+            
+            <option value="NSC23766
+"></option> 
+            
+            <option value="BIX-01294
+"></option> 
+            
+            <option value="UNC0638
+"></option> 
+            
+            <option value="PF-543
+"></option> 
+            
+            <option value="prochlorperazine
+"></option> 
+            
+            <option value="trifluoperazine
+"></option> 
+            
+            <option value="SCH-529074
+"></option> 
+            
+            <option value="fingolimod
+"></option> 
+            
+            <option value="GW-405833
+"></option> 
+            
+            <option value="StemRegenin 1
+"></option> 
+            
+            <option value="Bax channel blocker
+"></option> 
+            
+            <option value="Compound 23 citrate
+"></option> 
+            
+            <option value="nilotinib
+"></option> 
+            
+            <option value="masitinib
+"></option> 
+            
+            <option value="imatinib
+"></option> 
+            
+            <option value="GANT-61
+"></option> 
+            
+            <option value="KU-55933
+"></option> 
+            
+            <option value="KU-60019
+"></option> 
+            
+            <option value="BRD-K11533227
+"></option> 
+            
+            <option value="neuronal differentiation inducer III
+"></option> 
+            
+            <option value="BRD-K66532283
+"></option> 
+            
+            <option value="BRD-K80183349
+"></option> 
+            
+            <option value="tacedinaline
+"></option> 
+            
+            <option value="LBH-589
+"></option> 
+            
+            <option value="belinostat
+"></option> 
+            
+            <option value="vorinostat
+"></option> 
+            
+            <option value="apicidin
+"></option> 
+            
+            <option value="ISOX
+"></option> 
+            
+            <option value="entinostat
+"></option> 
+            
+            <option value="Merck60
+"></option> 
+            
+            <option value="BRD-K61166597
+"></option> 
+            
+            <option value="BRD-A86708339
+"></option> 
+            
+            <option value="ciclopirox
+"></option> 
+            
+            <option value="PAC-1
+"></option> 
+            
+            <option value="obatoclax
+"></option> 
+            
+            <option value="BRD-K63431240
+"></option> 
+            
+            <option value="sotrastaurin
+"></option> 
+            
+            <option value="NSC19630
+"></option> 
+            
+            <option value="PDMP
+"></option> 
+            
+            <option value="marinopyrrole A
+"></option> 
+            
+            <option value="bafilomycin A1
+"></option> 
+            
+            <option value="BRD-K33514849
+"></option> 
+            
+            <option value="BRD-K04800985
+"></option> 
+            
+            <option value="BRD-K02251932
+"></option> 
+            
+            <option value="BRD-K14844214
+"></option> 
+            
+            <option value="istradefylline
+"></option> 
+            
+            <option value="BIRB-796
+"></option> 
+            
+            <option value="WAY-362450
+"></option> 
+            
+            <option value="veliparib
+"></option> 
+            
+            <option value="BRD-K90370028
+"></option> 
+            
+            <option value="thalidomide
+"></option> 
+            
+            <option value="SZ4TA2
+"></option> 
+            
+            <option value="CBB-1007
+"></option> 
+            
+            <option value="ML050
+"></option> 
+            
+            <option value="BMS-270394
+"></option> 
+            
+            <option value="skepinone-L
+"></option> 
+            
+            <option value="MI-2
+"></option> 
+            
+            <option value="TG-100-115
+"></option> 
+            
+            <option value="AZD6482
+"></option> 
+            
+            <option value="TGX-221
+"></option> 
+            
+            <option value="CAL-101
+"></option> 
+            
+            <option value="pluripotin
+"></option> 
+            
+            <option value="saracatinib
+"></option> 
+            
+            <option value="dasatinib
+"></option> 
+            
+            <option value="WZ4002
+"></option> 
+            
+            <option value="PD 153035
+"></option> 
+            
+            <option value="ibrutinib
+"></option> 
+            
+            <option value="WZ8040
+"></option> 
+            
+            <option value="bosutinib
+"></option> 
+            
+            <option value="gefitinib
+"></option> 
+            
+            <option value="erlotinib
+"></option> 
+            
+            <option value="vandetanib
+"></option> 
+            
+            <option value="canertinib
+"></option> 
+            
+            <option value="lapatinib
+"></option> 
+            
+            <option value="afatinib
+"></option> 
+            
+            <option value="neratinib
+"></option> 
+            
+            <option value="BRD-K71935468
+"></option> 
+            
+            <option value="BRD-K94991378
+"></option> 
+            
+            <option value="VER-155008
+"></option> 
+            
+            <option value="IPR-456
+"></option> 
+            
+            <option value="BRD9647
+"></option> 
+            
+            <option value="C6-ceramide
+"></option> 
+            
+            <option value="VU0155056
+"></option> 
+            
+            <option value="Ko-143
+"></option> 
+            
+            <option value="L-685458
+"></option> 
+            
+            <option value="MI-1
+"></option> 
+            
+            <option value="UNC0321
+"></option> 
+            
+            <option value="fumonisin B1
+"></option> 
+            
+            <option value="GSK4112
+"></option> 
+            
+            <option value="ciclosporin
+"></option> 
+            
+            <option value="HC-067047
+"></option> 
+            
+            <option value="BRD-A71883111
+"></option> 
+            
+            <option value="tretinoin
+"></option> 
+            
+            <option value="Ch-55
+"></option> 
+            
+            <option value="BRD-K29086754
+"></option> 
+            
+            <option value="AGK-2
+"></option> 
+            
+            <option value="BRD-K33199242
+"></option> 
+            
+            <option value="BRD-K19103580
+"></option> 
+            
+            <option value="BRD-K41597374
+"></option> 
+            
+            <option value="BRD-K09587429
+"></option> 
+            
+            <option value="BRD-K52037352
+"></option> 
+            
+            <option value="BRD-K27986637
+"></option> 
+            
+            <option value="BRD-K48334597
+"></option> 
+            
+            <option value="RO4929097
+"></option> 
+            
+            <option value="trametinib
+"></option> 
+            
+            <option value="PD318088
+"></option> 
+            
+            <option value="selumetinib
+"></option> 
+            
+            <option value="BRD-K51831558
+"></option> 
+            
+            <option value="JW-55
+"></option> 
+            
+            <option value="JW-74
+"></option> 
+            
+            <option value="GSK2636771
+"></option> 
+            
+            <option value="PRIMA-1-Met
+"></option> 
+            
+            <option value="ML312
+"></option> 
+            
+            <option value="BRD-K16147474
+"></option> 
+            
+            <option value="etomoxir
+"></option> 
+            
+            <option value="BRD-K49290616
+"></option> 
+            
+            <option value="FGIN-1-27
+"></option> 
+            
+            <option value="BRD-K96431673
+"></option> 
+            
+            <option value="BRD-K96970199
+"></option> 
+            
+            <option value="BRD-K17060750
+"></option> 
+            
+            <option value="BRD-K86535717
+"></option> 
+            
+            <option value="BRD-K02492147
+"></option> 
+            
+            <option value="BRD-K75293299
+"></option> 
+            
+            <option value="sitagliptin
+"></option> 
+            
+            <option value="SGX-523
+"></option> 
+            
+            <option value="NSC30930
+"></option> 
+            
+            <option value="quizartinib
+"></option> 
+            
+            <option value="XL765
+"></option> 
+            
+            <option value="BRD-K85133207
+"></option> 
+            
+            <option value="16-beta-bromoandrosterone
+"></option> 
+            
+            <option value="tosedostat
+"></option> 
+            
+            <option value="AT-406
+"></option> 
+            
+            <option value="birinapant
+"></option> 
+            
+            <option value="SRT-1720
+"></option> 
+            
+            <option value="epigallocatechin-3-monogallate
+"></option> 
+            
+            <option value="BRD-K13999467
+"></option> 
+            
+            <option value="BRD-A94377914
+"></option> 
+            
+            <option value="Compound 7d-cis
+"></option> 
+            
+            <option value="tipifarnib-P2
+"></option> 
+            
+            <option value="myriocin
+"></option> 
+            
+            <option value="avrainvillamide
+"></option> 
+            
+            <option value="AC55649
+"></option> 
+            
+            <option value="lomeguatrib
+"></option> 
+            
+            <option value="semagacestat
+"></option> 
+            
+            <option value="SR1001
+"></option> 
+            
+            <option value="BMS-195614
+"></option> 
+            
+            <option value="vorapaxar
+"></option> 
+            
+            <option value="blebbistatin
+"></option> 
+            
+            <option value="FSC231
+"></option> 
+            
+            <option value="ML258
+"></option> 
+            
+            <option value="O-6-benzylguanine
+"></option> 
+            
+            <option value="Compound 1541A
+"></option> 
+            
+            <option value="tubastatin A
+"></option> 
+            
+            <option value="CIL55
+"></option> 
+            
+            <option value="CAY10576
+"></option> 
+            
+            <option value="BRD-K41334119
+"></option> 
+            
+            <option value="BRD-K27224038
+"></option> 
+            
+            <option value="BRD-K84807411
+"></option> 
+            
+            <option value="BRD-K30019337
+"></option> 
+            
+            <option value="BRD-K78574327
+"></option> 
+            
+            <option value="BRD-K42260513
+"></option> 
+            
+            <option value="IU1
+"></option> 
+            
+            <option value="LY-2157299
+"></option> 
+            
+            <option value="BCL-LZH-4
+"></option> 
+            
+            <option value="PF-4800567 hydrochloride
+"></option> 
+            
+            <option value="pandacostat
+"></option> 
+            
+            <option value="BRD6340
+"></option> 
+            
+            <option value="BEC
+"></option> 
+            
+            <option value="VAF-347
+"></option> 
+            
+            <option value="BRD-K34485477
+"></option> 
+            
+            <option value="BRD-K37390332
+"></option> 
+            
+            <option value="BRD-K44224150
+"></option> 
+            
+            <option value="procarbazine
+"></option> 
+            
+            <option value="necrostatin-1
+"></option> 
+            
+            <option value="sildenafil
+"></option> 
+            
+            <option value="cyclophosphamide
+"></option> 
+            
+            <option value="ML083
+"></option> 
+            
+            <option value="necrostatin-7
+"></option> 
+            
+            <option value="bexarotene
+"></option> 
+            
+            <option value="SCH-79797
+"></option> 
+            
+            <option value="methotrexate
+"></option> 
+            
+            <option value="RG-108
+"></option> 
+            
+            <option value="GMX-1778
+"></option> 
+            
+            <option value="STF-31
+"></option> 
+            
+            <option value="daporinad
+"></option> 
+            
+            <option value="CAY10618
+"></option> 
+            
+            <option value="dacarbazine
+"></option> 
+            
+            <option value="fluorouracil
+"></option> 
+            
+            <option value="decitabine
+"></option> 
+            
+            <option value="PF-3758309
+"></option> 
+            
+            <option value="omacetaxine mepesuccinate
+"></option> 
+            
+            <option value="SNS-032
+"></option> 
+            
+            <option value="PHA-793887
+"></option> 
+            
+            <option value="leptomycin B
+"></option> 
+            
+            <option value="narciclasine
+"></option> 
+            
+            <option value="SR-II-138A
+"></option> 
+            
+            <option value="CR-1-31B
+"></option> 
+            
+            <option value="BMS-345541
+"></option> 
+            
+            <option value="dinaciclib
+"></option> 
+            
+            <option value="alvocidib
+"></option> 
+            
+            <option value="linifanib
+"></option> 
+            
+            <option value="MK-1775
+"></option> 
+            
+            <option value="AZD7762
+"></option> 
+            
+            <option value="N9-isopropylolomoucine
+"></option> 
+            
+            <option value="momelotinib
+"></option> 
+            
+            <option value="AT13387
+"></option> 
+            
+            <option value="SNX-2112
+"></option> 
+            
+            <option value="tanespimycin
+"></option> 
+            
+            <option value="NVP-231
+"></option> 
+            
+            <option value="ML311
+"></option> 
+            
+            <option value="GW-843682X
+"></option> 
+            
+            <option value="LY-2183240
+"></option> 
+            
+            <option value="BI-2536
+"></option> 
+            
+            <option value="GSK461364
+"></option> 
+            
+            <option value="triazolothiadiazine
+"></option> 
+            
+            <option value="vincristine
+"></option> 
+            
+            <option value="parbendazole
+"></option> 
+            
+            <option value="KX2-391
+"></option> 
+            
+            <option value="paclitaxel
+"></option> 
+            
+            <option value="SB-743921
+"></option> 
+            
+            <option value="rigosertib
+"></option> 
+            
+            <option value="BRD-K70511574
+"></option> 
+            
+            <option value="ceranib-2
+"></option> 
+            
+            <option value="nakiterpiosin
+"></option> 
+            
+            <option value="BRD-K66453893
+"></option> 
+            
+            <option value="SB-225002
+"></option> 
+            
+            <option value="CHM-1
+"></option> 
+            
+            <option value="FQI-1
+"></option> 
+            
+            <option value="FQI-2
+"></option> 
+            
+            <option value="ELCPK
+"></option> 
+            
+            <option value="docetaxel
+"></option> 
+            
+            <option value="tivantinib
+"></option> 
+            
+            <option value="YK 4-279
+"></option> 
+            
+            <option value="isoevodiamine
+"></option> 
+            
+            <option value="brefeldin A
+"></option> 
+            
+            <option value="ouabain
+"></option> 
+            
+            <option value="BRD-K30748066
+"></option> 
+            
+            <option value="CIL55A
+"></option> 
+            
+            <option value="MG-132
+"></option> 
+            
+            <option value="MLN2238
+"></option> 
+            
+            <option value="bortezomib
+"></option> 
+            
+            <option value="palmostatin B
+"></option> 
+            
+            <option value="pitstop2
+"></option> 
+            
+            <option value="darinaparsin
+"></option> 
+            
+            <option value="QW-BI-011
+"></option> 
+            
+            <option value="SJ-172550
+"></option> 
+            
+            <option value="IC-87114
+"></option> 
+            
+            <option value="BRD-K50799972
+"></option> 
+            
+            <option value="BRD-K55116708
+"></option> 
+            
+            <option value="fluvastatin
+"></option> 
+            
+            <option value="lovastatin
+"></option> 
+            
+            <option value="simvastatin
+"></option> 
+            
+            <option value="staurosporine
+"></option> 
+            
+            <option value="GSK-3 inhibitor IX
+"></option> 
+            
+            <option value="CHIR-99021
+"></option> 
+            
+            <option value="avicin D
+"></option> 
+            
+            <option value="CIL56
+"></option> 
+            
+            <option value="erastin
+"></option> 
+            
+            <option value="ML210
+"></option> 
+            
+            <option value="ML162
+"></option> 
+            
+            <option value="1S,3R-RSL-3
+"></option> 
+            
+            <option value="CIL41
+"></option> 
+            
+            <option value="CIL70
+"></option> 
+            
+            <option value="BRD-K01737880
+"></option> 
+            
+            <option value="VX-680
+"></option> 
+            
+            <option value="isoliquiritigenin
+"></option> 
+            
+            <option value="tigecycline
+"></option> 
+            
+            <option value="COL-3
+"></option> 
+            
+            <option value="BRD-K71781559
+"></option> 
+            
+            <option value="MLN2480
+"></option> 
+            
+            <option value="GDC-0879
+"></option> 
+            
+            <option value="dabrafenib
+"></option> 
+            
+            <option value="PLX-4720
+"></option> 
+            
+            <option value="ML320
+"></option> 
+            
+            <option value="BRD-K29313308
+"></option> 
+            
+            <option value="BRD-K88742110
+"></option> 
+            
+            <option value="BRD-A02303741
+"></option> 
+            
+            <option value="NSC 74859
+"></option> 
+            
+            <option value="AZD7545
+"></option> 
+            
+            <option value="PLX-4032
+"></option> 
+            
+            <option value="compound 1B
+"></option> 
+            
+            <option value="BRD-K99006945
+"></option> 
+            
+            <option value="fulvestrant
+"></option> 
+            
+            <option value="SKI-II
+"></option> 
+            
+            <option value="cimetidine
+"></option> 
+            
+            <option value="JW-480
+"></option> 
+            
+            <option value="itraconazole
+"></option> 
+            
+            <option value="pifithrin-mu
+"></option> 
+            
+            <option value="SB-525334
+"></option> 
+            
+            <option value="phloretin
+"></option> 
+            
+            <option value="valdecoxib
+"></option> 
+            
+            <option value="PF-750
+"></option> 
+            
+            <option value="ML239
+"></option> 
+            
+            <option value="MST-312
+"></option> 
+            
+            <option value="TW-37
+"></option> 
+            
+            <option value="gossypol
+"></option> 
+            
+            <option value="BRD1812
+"></option> 
+            
+            <option value="YM-155
+"></option> 
+            
+            <option value="BRD-K92856060
+"></option> 
+            
+            <option value="neopeltolide
+"></option> 
+            
+            <option value="KHS101
+"></option> 
+            
+            <option value="spautin-1
+"></option> 
+            
+            <option value="oligomycin A
+"></option> 
+            
+            <option value="BRD-K97651142
+"></option> 
+            
+            <option value="SR8278
+"></option> 
+            
+            <option value="GSK-J4
+"></option> 
+            
+        </datalist>
+
+        <input type="submit" value="Submit Query">
+    </form>
+</div></body></html>

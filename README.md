@@ -12,4 +12,9 @@ In this dataset, cell lines are characterized by the tissue they originate from,
 
 ## Ready to Begin?
 
-Necessary packages: Install the packages in the provided Pip file. Then run the Flask application in the "app" folder with "flask run". By default it runs on port 5000.
+Necessary packages: Install the packages in app/requirements.txt. Then run the Flask application in the "app" folder with "flask run". By default it runs on port 5000.
+
+## How It Should Look
+![Screenshot of main page.](examples/mainpage_screenshot.png)
+
+Until and after this app is deployed, examples of its two main page HTMLs will be in the examples/ folder.

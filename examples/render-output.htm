@@ -1,0 +1,557 @@
+
+<!-- saved from url=(0035)http://127.0.0.1:5000/render-output -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="./render-output_files/styles.css">
+
+</head><body><h1> Results for brivanib</h1>
+
+<div class="text-bubble">
+    <p>Check out this drug's profile on <a href="https://go.drugbank.com/unearth/q?query=brivanib&amp;button=&amp;searcher=drugs">DrugBank</a>.</p>
+
+    <p>Until session cookies are implemented [coming soon!], refreshing this page will cause a redirect to the main page. Save the HTML to preserve a copy of this page.</p>
+
+    <form action="http://127.0.0.1:5000/" method="GET">
+        <input type="submit" value="Return to main page">
+    </form>
+
+</div>
+
+<h2> Data Summary </h2>
+
+<div class="text-bubble">
+    <p>In the dataset, <b>617</b> cell lines had their AUC values recorded for this drug.</p>
+
+    <p>Summary statistics:</p>
+    <table>
+        <tbody><tr>
+            <th>Maximum</th>
+            <th>3rd Quartile</th>
+            <th>Median</th>
+            <th>1st Quartile</th>
+            <th>Minimum</th>
+            <th>Interquartile Range</th>
+        </tr>
+        <tr>
+            <td>18.66</td>
+            <td>13.97</td>
+            <td>14.46</td>
+            <td>14.94</td>
+            <td>11.12</td>
+            <td>0.97</td> 
+        </tr>
+    </tbody></table>
+
+    <p>Out of these, <b>24</b> cell lines were outliers, having AUC values less than Q1 - (1.5 * IQR).</p>
+</div>
+
+<h2>Chi-squared test of independence: "Site" vs "Outlier"</h2>
+
+<div class="text-bubble">
+    <p>This is a test of whether variation in one categorical variable (outlier vs. not outlier) is associated with variation in another (tissue from which the cell originated).</p>
+
+    <p>Out of <b>15</b> tissues represented among the 24 outliers, <b>0</b> tissues were shared by 5 or more cell lines.</p>
+
+    <table>
+        <tbody><tr>
+            <th>Chi-squared test statistic</th>
+            <th>degrees of freedom</th>
+            <th>p-value</th>
+        </tr>
+        <tr>
+            <td>21.92271150326519</td>
+            <td>22</td>
+            <td>0.46451</td>
+        </tr>
+    </tbody></table>
+</div>
+
+<h3>Expected vs. observed counts</h3>
+
+<div class="text-bubble">
+    <table>
+        <tbody><tr>
+            <th>Count set</th>
+            <th>autonomic ganglia</th>
+            
+            <th>biliary tract</th>
+            
+            <th>bone</th>
+            
+            <th>breast</th>
+            
+            <th>central nervous system</th>
+            
+            <th>endometrium</th>
+            
+            <th>haematopoietic and lymphoid tissue</th>
+            
+            <th>kidney</th>
+            
+            <th>large intestine</th>
+            
+            <th>liver</th>
+            
+            <th>lung</th>
+            
+            <th>oesophagus</th>
+            
+            <th>ovary</th>
+            
+            <th>pancreas</th>
+            
+            <th>pleura</th>
+            
+            <th>prostate</th>
+            
+            <th>salivary gland</th>
+            
+            <th>skin</th>
+            
+            <th>soft tissue</th>
+            
+            <th>stomach</th>
+            
+            <th>thyroid</th>
+            
+            <th>upper aerodigestive tract</th>
+            
+            <th>urinary tract</th>
+            
+        </tr>
+        <tr>
+            <td>Expected counts, non-outliers</td>
+            <td>10.572</td>
+            
+            <td>6.728</td>
+            
+            <td>13.455</td>
+            
+            <td>32.677</td>
+            
+            <td>42.288</td>
+            
+            <td>23.066</td>
+            
+            <td>12.494</td>
+            
+            <td>17.3</td>
+            
+            <td>37.483</td>
+            
+            <td>17.3</td>
+            
+            <td>118.216</td>
+            
+            <td>22.105</td>
+            
+            <td>38.444</td>
+            
+            <td>37.483</td>
+            
+            <td>7.689</td>
+            
+            <td>5.767</td>
+            
+            <td>0.961</td>
+            
+            <td>46.133</td>
+            
+            <td>17.3</td>
+            
+            <td>24.028</td>
+            
+            <td>11.533</td>
+            
+            <td>28.833</td>
+            
+            <td>21.144</td>
+            
+        </tr>
+        <tr>
+            <td>Observed counts, non-outliers</td>
+            <td>10</td>
+            
+            <td>7</td>
+            
+            <td>13</td>
+            
+            <td>32</td>
+            
+            <td>43</td>
+            
+            <td>22</td>
+            
+            <td>12</td>
+            
+            <td>18</td>
+            
+            <td>39</td>
+            
+            <td>17</td>
+            
+            <td>121</td>
+            
+            <td>23</td>
+            
+            <td>37</td>
+            
+            <td>36</td>
+            
+            <td>7</td>
+            
+            <td>6</td>
+            
+            <td>1</td>
+            
+            <td>48</td>
+            
+            <td>17</td>
+            
+            <td>24</td>
+            
+            <td>12</td>
+            
+            <td>29</td>
+            
+            <td>19</td>
+            
+        </tr>
+        <tr>
+            <td>Expected counts, outliers</td>
+            <td>0.428</td>
+            
+            <td>0.272</td>
+            
+            <td>0.545</td>
+            
+            <td>1.323</td>
+            
+            <td>1.712</td>
+            
+            <td>0.934</td>
+            
+            <td>0.506</td>
+            
+            <td>0.7</td>
+            
+            <td>1.517</td>
+            
+            <td>0.7</td>
+            
+            <td>4.784</td>
+            
+            <td>0.895</td>
+            
+            <td>1.556</td>
+            
+            <td>1.517</td>
+            
+            <td>0.311</td>
+            
+            <td>0.233</td>
+            
+            <td>0.039</td>
+            
+            <td>1.867</td>
+            
+            <td>0.7</td>
+            
+            <td>0.972</td>
+            
+            <td>0.467</td>
+            
+            <td>1.167</td>
+            
+            <td>0.856</td>
+            
+        </tr>
+        <tr>
+            <td>Observed counts, outliers</td>
+            <td>1</td>
+            
+            <td>0</td>
+            
+            <td>1</td>
+            
+            <td>2</td>
+            
+            <td>1</td>
+            
+            <td>2</td>
+            
+            <td>1</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>1</td>
+            
+            <td>2</td>
+            
+            <td>0</td>
+            
+            <td>3</td>
+            
+            <td>3</td>
+            
+            <td>1</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>1</td>
+            
+            <td>1</td>
+            
+            <td>0</td>
+            
+            <td>1</td>
+            
+            <td>3</td>
+            
+        </tr>
+    </tbody></table>
+</div>
+
+<h2>Chi-squared test of independence: "Histology" vs "Outlier"</h2>
+
+<div class="text-bubble">
+    <p>This is a test of whether variation in one categorical variable (outlier vs. not outlier) is associated with variation in another (primary histology of the cancer cell).</p>
+
+    <p>Out of <b>7</b> histologies represented among the 24 outliers, <b>1</b> histologies were shared by 5 or more cell lines.</p>
+
+    <table>
+        <tbody><tr>
+            <th>Chi-squared test statistic</th>
+            <th>degrees of freedom</th>
+            <th>p-value</th>
+        </tr>
+        <tr>
+            <td>19.762625542395043</td>
+            <td>18</td>
+            <td>0.34634</td>
+        </tr>
+    </tbody></table>
+</div>
+
+
+<h3>Expected vs. observed counts:</h3>
+
+<div class="text-bubble">
+    <table>
+        <tbody><tr>
+            <th>Count set</th>
+            <th>Ewings sarcoma peripheral primitive neuroectodermal tumor</th>
+            
+            <th>carcinoid endocrine tumor</th>
+            
+            <th>carcinoma</th>
+            
+            <th>chondrosarcoma</th>
+            
+            <th>fibrosarcoma</th>
+            
+            <th>glioma</th>
+            
+            <th>haematopoietic neoplasm</th>
+            
+            <th>leiomyosarcoma</th>
+            
+            <th>lymphoid neoplasm</th>
+            
+            <th>malignant fibrous histiocytoma pleomorphic sarcoma</th>
+            
+            <th>malignant melanoma</th>
+            
+            <th>mesothelioma</th>
+            
+            <th>neuroblastoma</th>
+            
+            <th>osteosarcoma</th>
+            
+            <th>primitive neuroectodermal tumor medulloblastoma</th>
+            
+            <th>rhabdoid tumor</th>
+            
+            <th>rhabdomyosarcoma</th>
+            
+            <th>sarcoma</th>
+            
+            <th>sex cord stromal tumor</th>
+            
+        </tr>
+        <tr>
+            <td>Expected counts, non-outliers</td>
+            <td>4.806</td>
+            
+            <td>0.961</td>
+            
+            <td>441.146</td>
+            
+            <td>1.922</td>
+            
+            <td>0.961</td>
+            
+            <td>39.405</td>
+            
+            <td>3.844</td>
+            
+            <td>2.883</td>
+            
+            <td>8.65</td>
+            
+            <td>0.961</td>
+            
+            <td>46.133</td>
+            
+            <td>7.689</td>
+            
+            <td>10.572</td>
+            
+            <td>6.728</td>
+            
+            <td>2.883</td>
+            
+            <td>2.883</td>
+            
+            <td>7.689</td>
+            
+            <td>1.922</td>
+            
+            <td>0.961</td>
+            
+        </tr>
+        <tr>
+            <td>Observed counts, non-outliers</td>
+            <td>5</td>
+            
+            <td>1</td>
+            
+            <td>441</td>
+            
+            <td>2</td>
+            
+            <td>1</td>
+            
+            <td>40</td>
+            
+            <td>3</td>
+            
+            <td>3</td>
+            
+            <td>9</td>
+            
+            <td>1</td>
+            
+            <td>48</td>
+            
+            <td>7</td>
+            
+            <td>10</td>
+            
+            <td>6</td>
+            
+            <td>3</td>
+            
+            <td>2</td>
+            
+            <td>8</td>
+            
+            <td>2</td>
+            
+            <td>1</td>
+            
+        </tr>
+        <tr>
+            <td>Expected counts, outliers</td>
+            <td>0.194</td>
+            
+            <td>0.039</td>
+            
+            <td>17.854</td>
+            
+            <td>0.078</td>
+            
+            <td>0.039</td>
+            
+            <td>1.595</td>
+            
+            <td>0.156</td>
+            
+            <td>0.117</td>
+            
+            <td>0.35</td>
+            
+            <td>0.039</td>
+            
+            <td>1.867</td>
+            
+            <td>0.311</td>
+            
+            <td>0.428</td>
+            
+            <td>0.272</td>
+            
+            <td>0.117</td>
+            
+            <td>0.117</td>
+            
+            <td>0.311</td>
+            
+            <td>0.078</td>
+            
+            <td>0.039</td>
+            
+        </tr>
+        <tr>
+            <td>Observed counts, outliers</td>
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>18</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>1</td>
+            
+            <td>1</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>1</td>
+            
+            <td>1</td>
+            
+            <td>1</td>
+            
+            <td>0</td>
+            
+            <td>1</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+            <td>0</td>
+            
+        </tr>
+    </tbody></table>
+</div>
+
+<div class="return-button">
+    <form action="http://127.0.0.1:5000/" method="GET">
+        <input type="submit" value="Return to main page">
+    </form>
+</div></body></html>
